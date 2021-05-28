@@ -6,5 +6,5 @@ Just a bunch of commands that makes my work with k8s easier. No common commands 
 This one will print the namespace, the deployment name and the revisionHistoryLimit for deployments where revisionHistoryLimit is greater than 10.
 
 ```bash
-kubectl get deployments -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,REV_HISTORY:.spec.revisionHistoryLimit | awk '{ if ($3 > 10) print }'
+kubectl get deployments -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,API_VERSION:.apiVersion,REV_HISTORY:.spec.revisionHistoryLimit | awk '{ if ($4 > 10) print }'
 ```
