@@ -20,3 +20,11 @@ kubectl get deployments -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:
 ```bash
 kubectl patch deployment -n <namespace> <deployment> --type=json -p=’[{“op”: “replace”, “path”: “/spec/revisionHistoryLimit”, “value”: 10}]’
 ```
+
+### Get all pods with their probe's timeoutSeconds
+
+```bash
+kubectl get pods -A \
+-o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,LIVENESS_PROBE_TIMEOUT:spec.containers[*].livenessProbe.timeoutSeconds,READINESS_PROBE_TIMEOUT:spec.containers[*].readinessProbe.timeoutSeconds' \
+| awk '{if ($3 != "<none>" || $4 != "<none>") print $0 }'
+```
