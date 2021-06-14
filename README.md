@@ -1,6 +1,13 @@
 # kubernetes-cheat-sheet
 Just a bunch of commands that makes my work with k8s easier. No common commands will be shown here. Only commands that were semi-complex and used to solve an issue or find some rare data.
 
+## Find events in a namespace
+
+```bash
+NS='kube-system' # If it is kube-system you care about
+kubectl -n $NS get events --sort-by='{.lastTimestamp}'
+```
+
 ## Find number of unused ReplicaSets
 
 ```bash
