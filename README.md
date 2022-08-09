@@ -35,3 +35,13 @@ kubectl get pods -A \
 -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,LIVENESS_PROBE_TIMEOUT:spec.containers[*].livenessProbe.timeoutSeconds,READINESS_PROBE_TIMEOUT:spec.containers[*].readinessProbe.timeoutSeconds' \
 | awk '{if ($3 != "<none>" || $4 != "<none>") print $0 }'
 ```
+
+### Delete CRDs with finalizers
+
+```bash
+kubectl get crd | grep "cattle.io" | cut -d ' ' -f1 | while read file
+do
+  kubectl patch crd $file -p '{"metadata":{"finalizers":null}}'
+  kubectl delete crd $file
+done
+```
