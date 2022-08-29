@@ -45,3 +45,12 @@ do
   kubectl delete crd $file
 done
 ```
+
+### Delete finalizers on namespace
+```bash
+export NAMESPACE='cattle-system'
+kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
+export NAMESPACE='cert-manager'
+kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
+```
+
