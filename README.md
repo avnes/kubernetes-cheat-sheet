@@ -56,6 +56,6 @@ kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
 
 ### Report all requests and limits for all pods
 ```bash
-k get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,REQUESTS_CPU:.spec.containers[*].resources.requests.cpu,REQUESTS_MEMORY:.spec.containers[*].resources.requests.memory,LIMIT_CPU:.spec.containers[*].resources.limits.cpu,LiMIT_MEMORY:.spec.containers[*].resources.limits.memory' > ~/Downloads/all-pods.csv
+k get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,REQUESTS_CPU:.spec.containers[*].resources.requests.cpu,REQUESTS_MEMORY:.spec.containers[*].resources.requests.memory,LIMIT_CPU:.spec.containers[*].resources.limits.cpu,LiMIT_MEMORY:.spec.containers[*].resources.limits.memory'
 ```
 
