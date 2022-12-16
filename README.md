@@ -28,7 +28,7 @@ kubectl get deployments -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:
 kubectl patch deployment -n <namespace> <deployment> --type=json -p=’[{“op”: “replace”, “path”: “/spec/revisionHistoryLimit”, “value”: 10}]’
 ```
 
-### Get all pods with their probe's timeoutSeconds
+## Get all pods with their probe's timeoutSeconds
 
 ```bash
 kubectl get pods -A \
@@ -36,7 +36,7 @@ kubectl get pods -A \
 | awk '{if ($3 != "<none>" || $4 != "<none>") print $0 }'
 ```
 
-### Delete CRDs with finalizers
+## Delete CRDs with finalizers
 
 ```bash
 kubectl get crd | grep "cattle.io" | cut -d ' ' -f1 | while read file
@@ -46,7 +46,7 @@ do
 done
 ```
 
-### Delete finalizers on namespace
+## Delete finalizers on namespace
 ```bash
 export NAMESPACE='cattle-system'
 kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
@@ -54,8 +54,20 @@ export NAMESPACE='cert-manager'
 kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
 ```
 
-### Report all requests and limits for all pods
+## Report all requests and limits for all pods
 ```bash
 k get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,REQUESTS_CPU:.spec.containers[*].resources.requests.cpu,REQUESTS_MEMORY:.spec.containers[*].resources.requests.memory,LIMIT_CPU:.spec.containers[*].resources.limits.cpu,LiMIT_MEMORY:.spec.containers[*].resources.limits.memory'
 ```
 
+## Redis Connect
+```bash
+REDIS_HOST=somehost
+REDIS_PORT=someport
+REDIS_NAMESPACE=somens
+REDIS_SECRET=somesecret
+
+redis-cli -h $REDIS_HOST \
+-p $REDIS_PORT --tls --sni \
+$REDIS_HOST -a \
+$(kubectl -n $REDIS_NAMESPACE get secret $REDIS_SECRET -o jsonpath='{.data.redis-password}' | base64 -d)
+```
