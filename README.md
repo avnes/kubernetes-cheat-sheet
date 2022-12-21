@@ -47,6 +47,7 @@ done
 ```
 
 ## Delete finalizers on namespace
+
 ```bash
 export NAMESPACE='cattle-system'
 kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
@@ -55,11 +56,13 @@ kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
 ```
 
 ## Report all requests and limits for all pods
+
 ```bash
 k get pods -A -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,REQUESTS_CPU:.spec.containers[*].resources.requests.cpu,REQUESTS_MEMORY:.spec.containers[*].resources.requests.memory,LIMIT_CPU:.spec.containers[*].resources.limits.cpu,LiMIT_MEMORY:.spec.containers[*].resources.limits.memory'
 ```
 
 ## Redis Connect
+
 ```bash
 REDIS_HOST=somehost
 REDIS_PORT=someport
@@ -70,4 +73,10 @@ redis-cli -h $REDIS_HOST \
 -p $REDIS_PORT --tls --sni \
 $REDIS_HOST -a \
 $(kubectl -n $REDIS_NAMESPACE get secret $REDIS_SECRET -o jsonpath='{.data.redis-password}' | base64 -d)
+```
+
+## Ingresses with specific annotations
+
+```bash
+kubectl get ingress -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,EXTERNAL-DNS-TARGET-ANNOTATION:".metadata.annotations.external-dns\.alpha\.kubernetes\.io/target" | grep -v "<none>"
 ```
