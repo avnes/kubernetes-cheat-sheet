@@ -46,13 +46,24 @@ do
 done
 ```
 
-## Delete finalizers on namespace
+## Delete finalizers on specific namespace
 
 ```bash
 export NAMESPACE='cattle-system'
 kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
 export NAMESPACE='cert-manager'
 kubectl patch namespace $NAMESPACE -p '{"metadata":{"finalizers":null}}'
+```
+
+## Delete finalizers on all namespaces
+
+```bash
+NAMESPACES=$(kubectl get namespaces --no-headers -o custom-columns=NAME:.metadata.name | awk '{print $1}' | tail -n +2)
+NAMESPACES=( $( echo $NAMESPACES ) )
+
+for ns in "${NAMESPACES[@]}"; do
+    kubectl patch namespace $ns -p '{"metadata":{"finalizers":null}}'
+done
 ```
 
 ## Report all requests and limits for all pods
