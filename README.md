@@ -91,3 +91,20 @@ $(kubectl -n $REDIS_NAMESPACE get secret $REDIS_SECRET -o jsonpath='{.data.redis
 ```bash
 kubectl get ingress -A -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,EXTERNAL-DNS-TARGET-ANNOTATION:".metadata.annotations.external-dns\.alpha\.kubernetes\.io/target" | grep -v "<none>"
 ```
+
+## Mass removal of annotations
+
+```bash
+k get middlewares -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name -A | sed 's/ \+/ /g' | while read file; do
+namespace=$(echo $file | cut -d ' ' -f 1)
+name=$(echo $file | cut -d ' ' -f 2)
+kubectl annotate middleware $name -n $namespace 'kubectl.kubernetes.io/last-applied-configuration'-
+done
+
+
+k get ingressroute -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name -A | sed 's/ \+/ /g' | while read file; do
+namespace=$(echo $file | cut -d ' ' -f 1)
+name=$(echo $file | cut -d ' ' -f 2)
+kubectl annotate ingressroute $name -n $namespace 'kubectl.kubernetes.io/last-applied-configuration'-
+done
+```
