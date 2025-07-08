@@ -108,3 +108,9 @@ name=$(echo $file | cut -d ' ' -f 2)
 kubectl annotate ingressroute $name -n $namespace 'kubectl.kubernetes.io/last-applied-configuration'-
 done
 ```
+
+## Stale GroupVersion discovery: metrics.k8s.io/v1beta1
+
+```bash
+kubectl delete APIServices v1beta1.metrics.k8s.io
+```
