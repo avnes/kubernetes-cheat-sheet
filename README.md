@@ -114,3 +114,9 @@ done
 ```bash
 kubectl delete APIServices v1beta1.metrics.k8s.io
 ```
+
+## Refresh ExternalSecret
+
+```bash
+kubectl annotate ExternalSecret my-eso force-sync=$(date +%s) --overwrite
+```
