@@ -113,6 +113,7 @@ done
 
 ```bash
 kubectl delete APIServices v1beta1.metrics.k8s.io
+kubectl delete APIServices v1beta1.external.metrics.k8s.io
 ```
 
 ## Refresh ExternalSecret
