@@ -121,3 +121,15 @@ kubectl delete APIServices v1beta1.external.metrics.k8s.io
 ```bash
 kubectl annotate ExternalSecret my-eso force-sync=$(date +%s) --overwrite
 ```
+
+## Secrets without specific label
+
+```bash
+kubectl get secret -A --selector='!reconcile.external-secrets.io/managed'
+```
+
+## ServiceAccounts with specific annotation
+
+```bash
+kubectl get sa -A -o json| jq '.items[] | "\(.metadata.namespace) \(.metadata.name) \(.metadata.annotations | has("eks.amazonaws.com/role-arn"))"' | grep true
+```
