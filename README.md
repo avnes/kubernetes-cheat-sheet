@@ -151,3 +151,10 @@ kubectl get crd | grep external-secrets.io | cut -d ' ' -f1 | xargs kubectl dele
 
 kubectl get crd | grep onepassword.com | cut -d ' ' -f1 | xargs kubectl delete crd
 ```
+
+## Delete my webhooks after helm uninstall
+
+```bash
+kubectl get validatingwebhookconfigurations --no-headers=true | grep -v vpc-resource-validating-webhook | cut -d ' ' -f1 | xargs kubectl delete validatingwebhookconfigurations
+kubectl get mutatingwebhookconfigurations --no-headers=true | grep -v vpc-resource-mutating-webhook | cut -d ' ' -f1 | xargs kubectl delete mutatingwebhookconfigurations
+```
