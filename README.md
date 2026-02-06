@@ -133,3 +133,21 @@ kubectl get secret -A --selector='!reconcile.external-secrets.io/managed'
 ```bash
 kubectl get sa -A -o json| jq '.items[] | "\(.metadata.namespace) \(.metadata.name) \(.metadata.annotations | has("eks.amazonaws.com/role-arn"))"' | grep true
 ```
+
+## Delete my CRDs after helm uninstall
+
+```bash
+kubectl get crd | grep velero.io | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep traefik.io | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep cert-manager.io | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep keda.sh | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep kyverno.io | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep external-secrets.io | cut -d ' ' -f1 | xargs kubectl delete crd
+
+kubectl get crd | grep onepassword.com | cut -d ' ' -f1 | xargs kubectl delete crd
+```
