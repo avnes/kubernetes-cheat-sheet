@@ -152,3 +152,25 @@ kubectl get crd | grep external-secrets.io | cut -d ' ' -f1 | xargs kubectl dele
 kubectl get crd | grep onepassword.com | cut -d ' ' -f1 | xargs kubectl delete crd
 ```
 
+## Delete my webhooks after helm uninstall
+
+```bash
+kubectl delete mutatingwebhookconfigurations aws-load-balancer-webhook
+kubectl delete mutatingwebhookconfigurations cert-manager-webhook
+kubectl delete mutatingwebhookconfigurations kyverno-policy-mutating-webhook-cfg
+kubectl delete mutatingwebhookconfigurations kyverno-resource-mutating-webhook-cfg
+kubectl delete mutatingwebhookconfigurations kyverno-verify-mutating-webhook-cfg
+
+kubectl delete validatingwebhookconfigurations aws-load-balancer-webhook
+kubectl delete validatingwebhookconfigurations cert-manager-webhook
+kubectl delete validatingwebhookconfigurations externalsecret-validate
+kubectl delete validatingwebhookconfigurations keda-admission
+kubectl delete validatingwebhookconfigurations kyverno-cel-exception-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-cleanup-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-exception-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-global-context-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-policy-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-resource-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations kyverno-ttl-validating-webhook-cfg
+kubectl delete validatingwebhookconfigurations secretstore-validate
+```
