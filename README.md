@@ -174,3 +174,12 @@ kubectl delete validatingwebhookconfigurations kyverno-resource-validating-webho
 kubectl delete validatingwebhookconfigurations kyverno-ttl-validating-webhook-cfg
 kubectl delete validatingwebhookconfigurations secretstore-validate
 ```
+
+## Remove finalizers on VolumeSnapshotContents
+
+```bash
+kubectl get volumesnapshotcontents --no-headers -o custom-columns=NAME:.metadata.name | awk '{print $1}' | while read file
+do
+  kubectl patch volumesnapshotcontents $file --type='json' -p='[{"op": "replace", "path": "/metadata/finalizers", "value":null}]'
+done
+```
